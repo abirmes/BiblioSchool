@@ -10,4 +10,10 @@ CREATE Table `Categorie` (
     categorie VARCHAR(100),
     description VARCHAR(500)
 );
+CREATE Table `Etat` (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    categorie VARCHAR(100),
+    description VARCHAR(500)
+);
+
 
