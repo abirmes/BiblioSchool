@@ -1,9 +1,9 @@
 <?php
 class DBConnection {
 
-    public $conn;
+    private $conn;
 
-    function DBConnection(){
+    public function __construct(){
 
         $host = 'localhost';
         $dbname = 'biblioschool';
@@ -15,7 +15,7 @@ class DBConnection {
             $this -> conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
             $this -> conn -> setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            return $this -> conn;
+            // return $this -> conn;
         }
         catch(PDOException $e) {
 
@@ -23,6 +23,10 @@ class DBConnection {
         }
 
     } 
+
+    public function getConnexion() {
+        return $this->conn;
+    }
 
 } 
 

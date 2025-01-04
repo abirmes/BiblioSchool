@@ -1,19 +1,52 @@
 <?php
-require_once 'shared.php';
+require_once "../core/config/database.php";
 
-class Tag extends Shared
+
+
+class Shared
 {
-    
+    protected int $id;
+    protected string $name;
+    protected string $description;
+    protected $tableName;
+    protected $db;
+
 
     public function __construct()
     {
-        parent::__construct();
+        $this->db = new DBConnection();
     }
-    
-    public function __toString()
+
+
+    public function set_id($id)
     {
-        return 'the tag is : ' . $this->get_name() . ' / its description: ' . $this->get_description();
+        $this->id = $id;
     }
+    public function set_name($name)
+    {
+        $this->name = $name;
+    }
+    public function set_description($description)
+    {
+        $this->description = $description;
+    }
+
+
+
+    public function get_id()
+    {
+        return $this->id;
+    }
+    public function get_name()
+    {
+        return $this->name;
+    }
+    public function get_description()
+    {
+        return $this->description;
+    }
+
+
 
     public function create($name, $description)
     {
@@ -21,9 +54,9 @@ class Tag extends Shared
             $name = $_POST['name'];
             $description = $_POST['description'];
             try {
-                $query = 'INSERT INTO `tag` VALUES (NULL, :tag , :description);';
+                $query = 'INSERT INTO '. $this->tableName  . 'VALUES (NULL, :categorie , :description);';
                 $stmt = $this->db->getConnexion()->prepare($query);
-                $stmt->bindParam('tag', $name);
+                $stmt->bindParam('categorie', $name);
                 $stmt->bindParam('description', $description);
                 $stmt->execute();
             } catch (PDOException $e) {
@@ -34,7 +67,7 @@ class Tag extends Shared
 
     public function bring_all()
     {
-        $query = 'select * from `tag`';
+        $query = 'select * from '. $this->tableName  . '';
         $stmt = $this->db->getConnexion()->prepare($query);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,7 +76,7 @@ class Tag extends Shared
 
     public function bring_one($id)
     {
-        $query = 'SELECT * FROM `tag` WHERE id = :id;';
+        $query = 'SELECT * FROM '. $this->tableName  . 'WHERE id = :id;';
         $stmt = $this->db->getConnexion()->prepare($query);
         $stmt->bindParam('id', $id);
         $stmt->execute();
@@ -54,12 +87,12 @@ class Tag extends Shared
     }
 
 
-    public function update($id, $name, $description)
+    public function update( $id, $name, $description)
     {
         try {
-            $query = 'UPDATE `tag` SET `tag` = :tag , `description` = :description WHERE `id` = :id;';
+            $query = 'UPDATE '. $this->tableName  . ' SET `categorie` = :categorie , `description` = :description WHERE `id` = :id;';
             $stmt = $this->db->getConnexion()->prepare($query);
-            $stmt->bindParam('tag', $name);
+            $stmt->bindParam('categorie', $name);
             $stmt->bindParam('description', $description);
             $stmt->bindParam('id', $id);
             $stmt->execute();
@@ -71,7 +104,7 @@ class Tag extends Shared
     public function delete($id)
     {
         try {
-            $query = 'DELETE FROM `tag` WHERE `id` = :id;';
+            $query = 'DELETE FROM '. $this->tableName  . ' WHERE `id` = :id;';
             $stmt = $this->db->getConnexion()->prepare($query);
             $stmt->bindParam('id', $id);
             $stmt->execute();
@@ -79,4 +112,5 @@ class Tag extends Shared
             die('Message: ' . $e->getMessage());
         }
     }
+
 }
