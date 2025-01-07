@@ -1,4 +1,5 @@
 <?php
+
 class DBConnection {
 
     private $conn;
@@ -6,7 +7,7 @@ class DBConnection {
     public function __construct(){
 
         $host = 'localhost';
-        $dbname = 'biblioschool';
+        $dbname = 'schoolbiblio';
         $user = 'root';
         $pass = '';
         

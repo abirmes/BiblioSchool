@@ -19,7 +19,14 @@ class Role
     }
     public function set_name($name)
     {
-        $this->name = $name;
+        if($name == 'apprenant' || $name == 'administrateur' || $name == 'gerant')
+        {
+            $this->name = $name;
+        }
+        else
+        {
+            echo 'ce nest pas un role';
+        }
     }
     public function get_id()
     {

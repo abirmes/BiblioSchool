@@ -12,9 +12,12 @@ class Shared
     protected $db;
 
 
-    public function __construct()
+    public function __construct($name , $description)
     {
         $this->db = new DBConnection();
+        $this->name = $name;
+        $this->description = $description;
+
     }
 
 
@@ -48,22 +51,17 @@ class Shared
 
 
 
-    public function create($name, $description)
+    public function create()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            try {
                 $query = 'INSERT INTO '. $this->tableName  . 'VALUES (NULL, :categorie , :description);';
                 $stmt = $this->db->getConnexion()->prepare($query);
-                $stmt->bindParam('categorie', $name);
-                $stmt->bindParam('description', $description);
+                $stmt->bindParam('categorie', $this->name);
+                $stmt->bindParam('description', $this->description);
                 $stmt->execute();
-            } catch (PDOException $e) {
-                echo 'Message: ' . $e->getMessage();
-            }
-        }
+                $this->id = $this->db->getConnexion()->lastInsertId();
+            
     }
+    
 
     public function bring_all()
     {
@@ -74,11 +72,22 @@ class Shared
         return $result;
     }
 
-    public function bring_one($id)
+    public function bring_one()
     {
         $query = 'SELECT * FROM '. $this->tableName  . 'WHERE id = :id;';
         $stmt = $this->db->getConnexion()->prepare($query);
-        $stmt->bindParam('id', $id);
+        $stmt->bindParam('id', $this->id);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        var_dump($result);
+        return $result;
+
+    }
+    public function bring_one_by_name($name)
+    {
+        $query = 'SELECT * FROM '. $this->tableName  . 'WHERE name = :name;';
+        $stmt = $this->db->getConnexion()->prepare($query);
+        $stmt->bindParam('name', $name);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         var_dump($result);
@@ -87,30 +96,37 @@ class Shared
     }
 
 
-    public function update( $id, $name, $description)
+    public function update()
     {
         try {
             $query = 'UPDATE '. $this->tableName  . ' SET `categorie` = :categorie , `description` = :description WHERE `id` = :id;';
             $stmt = $this->db->getConnexion()->prepare($query);
-            $stmt->bindParam('categorie', $name);
-            $stmt->bindParam('description', $description);
-            $stmt->bindParam('id', $id);
+            $stmt->bindParam('categorie', $this->name);
+            $stmt->bindParam('description', $this->description);
+            $stmt->bindParam('id', $this->id);
             $stmt->execute();
         } catch (PDOException $e) {
             die('Message: ' . $e->getMessage());
         }
     }
 
-    public function delete($id)
+    public function delete()
     {
         try {
             $query = 'DELETE FROM '. $this->tableName  . ' WHERE `id` = :id;';
             $stmt = $this->db->getConnexion()->prepare($query);
-            $stmt->bindParam('id', $id);
+            $stmt->bindParam('id', $this->id);
             $stmt->execute();
         } catch (PDOException $e) {
             die('Message: ' . $e->getMessage());
         }
     }
+    function save() {
+    if ($this->id == null) {
+        $this->create($this->name , $this->description);
+    } else if ($this->id != null) {
+        $this->update();
+    }
+}
 
 }

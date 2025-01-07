@@ -10,10 +10,10 @@ class Livre
     private $categorie;
     private $tag = [];
 
-    public function __construct($name , $auteur , $description){
-        $this->name = $name;
-        $this->auteur = $auteur;
-        $this->description = $description;
+    public function __construct(){
+        // $this->name = $name;
+        // $this->auteur = $auteur;
+        // $this->description = $description;
     }
 
     public function set_auteur($auteur)
@@ -24,33 +24,38 @@ class Livre
     {
         return $this->auteur;
     }
-    public function set_name($name)
+    public function set_book_name($name)
     {
         $this->name = $name;
     }
-    public function get_name()
+    public function get_book_name()
     {
         return $this->name;
     }
-    public function set_description($description)
+    public function set_book_description($description)
     {
         $this->description = $description;
     }
-    public function get_description()
+    public function get_book_description()
     {
         return $this->description;
     }
 
 
-    public function add_categorie(Categorie $categorie)
+    public function add_categorie($name , $description)
     {
-        $this->categorie = $categorie;
+        $this->categorie = new Categorie($name , $description);
     }
 
-    public function add_tag(Tag $tag)
+    public function add_tag($name , $description)
     {
-        $this->tag[] = $tag;
+        $this->tag[] = new Tag($name , $description);
     }
+
+    public function get_book_by_categorie($categorie)
+    {
+
+        $sql = 'SELECT * FROM `livre` WHERE livre(id) = categorie()'   ; }
 
 
 

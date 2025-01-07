@@ -22,8 +22,3 @@ class Categorie extends Shared
 
     
 }
-$abir = new Categorie();
-$abir->update( 1 , 'philosop' , 'where people minds meet');
-var_dump($abir);
-
-// $abir->bring_one(1);

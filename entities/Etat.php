@@ -19,7 +19,15 @@ class Etat
     }
     public function set_name($name)
     {
-        $this->name = $name;
+        if($name == 'pending' || $name == 'confirmé' || $name == 'terminé')
+        {
+            $this->name = $name;
+        }
+        else
+        {
+            echo 'ce nest pas une etat';
+        }
+        
     }
     public function get_id()
     {
