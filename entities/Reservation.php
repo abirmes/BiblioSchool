@@ -48,7 +48,3 @@ class Reservation
     }
     
 }
-// $duration = $res->get_duration;
-$res = new Reservation();
-$res->get_etat()->set_name("reserved");
-var_dump($res);

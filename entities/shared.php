@@ -1,5 +1,5 @@
 <?php
-require_once "../core/config/database.php";
+require_once "database.php";
 
 
 
@@ -12,19 +12,17 @@ class Shared
     protected $db;
 
 
-    public function __construct($name , $description)
+
+    public function __construct()
     {
         $this->db = new DBConnection();
-        $this->name = $name;
-        $this->description = $description;
+       
 
     }
 
 
-    public function set_id($id)
-    {
-        $this->id = $id;
-    }
+
+    
     public function set_name($name)
     {
         $this->name = $name;
@@ -36,10 +34,8 @@ class Shared
 
 
 
-    public function get_id()
-    {
-        return $this->id;
-    }
+
+    
     public function get_name()
     {
         return $this->name;
@@ -51,6 +47,7 @@ class Shared
 
 
 
+    
     public function create()
     {
                 $query = 'INSERT INTO '. $this->tableName  . 'VALUES (NULL, :categorie , :description);';
@@ -123,7 +120,7 @@ class Shared
     }
     function save() {
     if ($this->id == null) {
-        $this->create($this->name , $this->description);
+        $this->create();
     } else if ($this->id != null) {
         $this->update();
     }

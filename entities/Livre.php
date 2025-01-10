@@ -1,16 +1,22 @@
 <?php
 require_once "Tag.php";
 require_once "Categorie.php";
+require_once "database.php";
 
-class Livre 
+
+class Livre
 {
     private string $auteur;
     private string $name;
     private string $description;
     private $categorie;
+    private $db;
     private $tag = [];
 
-    public function __construct(){
+    public function __construct()
+    {
+        $this->db = new DBConnection();
+
         // $this->name = $name;
         // $this->auteur = $auteur;
         // $this->description = $description;
@@ -42,23 +48,36 @@ class Livre
     }
 
 
-    public function add_categorie($name , $description)
+    public function add_categorie($name, $description)
     {
-        $this->categorie = new Categorie($name , $description);
+        $this->categorie = new Categorie($name, $description);
     }
 
-    public function add_tag($name , $description)
+    public function add_tag($name, $description)
     {
-        $this->tag[] = new Tag($name , $description);
+        $this->tag[] = new Tag($name, $description);
+    }
+
+    public function get_book_by_tag($categorie)
+    {
+
+        $sql = 'SELECT * FROM `livre` WHERE categorie = :categorie';
+        $stmt = $this->db->getConnexion()->prepare($sql);
+        $stmt->bindParam(':categoie' , $categorie);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public function get_book_by_categorie($categorie)
     {
 
-        $sql = 'SELECT * FROM `livre` WHERE livre(id) = categorie()'   ; }
-
-
-
+        $sql = 'SELECT * FROM `livre` WHERE categorie = :categorie';
+        $stmt = $this->db->getConnexion()->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
 
 

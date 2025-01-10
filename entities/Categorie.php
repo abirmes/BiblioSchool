@@ -8,7 +8,7 @@ require_once "shared.php";
 
 class Categorie extends Shared
 {
-    protected $tableName = "categorie";
+    protected $tableName = "Categorie";
 
     public function __construct()
     {

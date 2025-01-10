@@ -1,6 +1,10 @@
 <?php
 
+require_once 'entities/database.php';
 require_once 'entities/main.php';
-require_once 'core/config/database.php';
+require_once 'entities/main.php';
+require_once 'entities/main.php';
+require_once 'entities/main.php';
+require_once 'entities/main.php';
 
-Main::_main();
+
